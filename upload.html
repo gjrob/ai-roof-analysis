@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Photos - AI Roof Analysis</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .form-section {
+            padding: 40px;
+        }
+        
+        .step {
+            margin-bottom: 40px;
+            padding-bottom: 30px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+        
+        .step:last-child {
+            border-bottom: none;
+        }
+        
+        .step-number {
+            background: #667eea;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+        
+        .step h3 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-size: 1.4rem;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #555;
+        }
+        
+        input[type="text"],
+        input[type="email"],
+        input[type="tel"],
+        textarea {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+        
+        input:focus,
+        textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        
+        .file-upload-area {
+            border: 3px dashed #667eea;
+            border-radius: 15px;
+            padding: 40px;
+            text-align: center;
+            background: #f8f9ff;
+            margin: 20px 0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .file-upload-area:hover {
+            background: #f0f2ff;
+            border-color: #5a67d8;
+        }
+        
+        .file-upload-area.dragover {
+            background: #e6f3ff;
+            border-color: #3182ce;
+        }
+        
+        .upload-icon {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            color: #667eea;
+        }
+        
+        .file-input {
+            display: none;
+        }
+        
+        .uploaded-files {
+            margin-top: 20px;
+        }
+        
+        .file-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 10px;
+        }
+        
+        .file-info {
+            display: flex;
+            align-items: center;
+        }
+        
+        .file-icon {
+            margin-right: 10px;
+            color: #667eea;
+        }
+        
+        .remove-file {
+            background: #ff4757;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.8rem;
+        }
+        
+        .remove-file:hover {
+            background: #ff3742;
+        }
+        
+        .payment-section {
+            background: #f8f9fa;
+            padding: 30px;
+            border-radius: 15px;
+            margin: 30px 0;
+        }
+        
+        .price-display {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        .price {
+            font-size: 3rem;
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+        
+        .submit-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px 40px;
+            font-size: 1.2rem;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            width: 100%;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+        }
+        
+        .submit-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        
+        .requirements {
+            background: #e8f5e8;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border-left: 4px solid #27ae60;
+        }
+        
+        .requirements h4 {
+            color: #27ae60;
+            margin-bottom: 10px;
+        }
+        
+        .requirements ul {
+            margin-left: 20px;
+        }
+        
+        .requirements li {
+            margin-bottom: 5px;
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 10px;
+            background: #e0e0e0;
+            border-radius: 5px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Upload Your Roof Photos</h1>
+            <p>Get your professional AI analysis report in 24 hours</p>
+        </div>
+        
+        <div class="form-section">
+            <form id="roofAnalysisForm">
+                <!-- Step 1: Property Information -->
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <h3>Property Information</h3>
+                    
+                    <div class="form-group">
+                        <label for="propertyAddress">Property Address *</label>
+                        <input type="text" id="propertyAddress" name="propertyAddress" required 
+                               placeholder="123 Main St, City, State, ZIP">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="clientName">Your Name *</label>
+                        <input type="text" id="clientName" name="clientName" required 
+                               placeholder="John Smith">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="clientEmail">Email Address *</label>
+                        <input type="email" id="clientEmail" name="clientEmail" required 
+                               placeholder="john@example.com">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="clientPhone">Phone Number</label>
+                        <input type="tel" id="clientPhone" name="clientPhone" 
+                               placeholder="(555) 123-4567">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="inspectionPurpose">Purpose of Inspection</label>
+                        <textarea id="inspectionPurpose" name="inspectionPurpose" rows="3" 
+                                  placeholder="Insurance claim, pre-purchase inspection, maintenance planning, etc."></textarea>
+                    </div>
+                </div>
+                
+                <!-- Step 2: Photo Upload -->
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <h3>Upload Roof Photos</h3>
+                    
+                    <div class="requirements">
+                        <h4>Photo Requirements:</h4>
+                        <ul>
+                            <li>Minimum 3 photos, maximum 10 photos</li>
+                            <li>Clear, high-resolution images (at least 1080p)</li>
+                            <li>Good lighting (no dark or blurry photos)</li>
+                            <li>Multiple angles of the roof</li>
+                            <li>JPG, PNG, or HEIC formats accepted</li>
+                            <li>Maximum 10MB per photo</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="file-upload-area" id="uploadArea">
+                        <div class="upload-icon">📸</div>
+                        <h4>Drag & Drop Photos Here</h4>
+                        <p>Or click to select files</p>
+                        <input type="file" id="fileInput" class="file-input" multiple accept="image/*">
+                    </div>
+                    
+                    <div class="uploaded-files" id="uploadedFiles"></div>
+                    
+                    <div class="progress-bar" id="progressBar" style="display: none;">
+                        <div class="progress-fill" id="progressFill"></div>
+                    </div>
+                </div>
+                
+                <!-- Step 3: Payment -->
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <h3>Complete Payment</h3>
+                    
+                    <div class="payment-section">
+                        <div class="price-display">
+                            <div class="price">$199</div>
+                            <p>Professional AI Roof Analysis Report</p>
+                        </div>
+                        
+                        <p style="text-align: center; margin-bottom: 20px;">
+                            After submitting your information and photos, you'll be redirected to secure payment processing.
+                        </p>
+                        
+                        <p style="text-align: center; font-size: 0.9rem; color: #666;">
+                            ✅ Secure payment via Stripe<br>
+                            ✅ 24-hour report delivery<br>
+                            ✅ Money-back guarantee
+                        </p>
+                    </div>
+                    
+                    <button type="submit" class="submit-btn" id="submitBtn" disabled>
+                        Complete Order & Pay $199
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        let uploadedFiles = [];
+        
+        // Form validation
+        function validateForm() {
+            const requiredFields = ['propertyAddress', 'clientName', 'clientEmail'];
+            const allFilled = requiredFields.every(field => 
+                document.getElementById(field).value.trim() !== ''
+            );
+            const hasFiles = uploadedFiles.length >= 3;
+            
+            document.getElementById('submitBtn').disabled = !(allFilled && hasFiles);
+        }
+        
+        // File upload handling
+        const uploadArea = document.getElementById('uploadArea');
+        const fileInput = document.getElementById('fileInput');
+        const uploadedFilesDiv = document.getElementById('uploadedFiles');
+        
+        uploadArea.addEventListener('click', () => fileInput.click());
+        
+        uploadArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            uploadArea.classList.add('dragover');
+        });
+        
+        uploadArea.addEventListener('dragleave', () => {
+            uploadArea.classList.remove('dragover');
+        });
+        
+        uploadArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            uploadArea.classList.remove('dragover');
+            handleFiles(e.dataTransfer.files);
+        });
+        
+        fileInput.addEventListener('change', (e) => {
+            handleFiles(e.target.files);
+        });
+        
+        function handleFiles(files) {
+            Array.from(files).forEach(file => {
+                if (file.type.startsWith('image/') && uploadedFiles.length < 10) {
+                    uploadedFiles.push(file);
+                    displayFile(file);
+                }
+            });
+            validateForm();
+        }
+        
+        function displayFile(file) {
+            const fileItem = document.createElement('div');
+            fileItem.className = 'file-item';
+            fileItem.innerHTML = `
+                <div class="file-info">
+                    <span class="file-icon">📷</span>
+                    <span>${file.name} (${(file.size / 1024 / 1024).toFixed(1)}MB)</span>
+                </div>
+                <button type="button" class="remove-file" onclick="removeFile('${file.name}', this)">Remove</button>
+            `;
+            uploadedFilesDiv.appendChild(fileItem);
+        }
+        
+        function removeFile(fileName, button) {
+            uploadedFiles = uploadedFiles.filter(file => file.name !== fileName);
+            button.parentElement.remove();
+            validateForm();
+        }
+        
+        // Form validation on input
+        document.querySelectorAll('input[required]').forEach(input => {
+            input.addEventListener('input', validateForm);
+        });
+        
+        // Form submission
+        document.getElementById('roofAnalysisForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            if (uploadedFiles.length < 3) {
+                alert('Please upload at least 3 photos of your roof.');
+                return;
+            }
+            
+            // Collect form data
+            const formData = new FormData();
+            formData.append('propertyAddress', document.getElementById('propertyAddress').value);
+            formData.append('clientName', document.getElementById('clientName').value);
+            formData.append('clientEmail', document.getElementById('clientEmail').value);
+            formData.append('clientPhone', document.getElementById('clientPhone').value);
+            formData.append('inspectionPurpose', document.getElementById('inspectionPurpose').value);
+            
+            uploadedFiles.forEach((file, index) => {
+                formData.append(`roofPhoto${index}`, file);
+            });
+            
+            // Show progress
+            document.getElementById('progressBar').style.display = 'block';
+            document.getElementById('submitBtn').disabled = true;
+            document.getElementById('submitBtn').textContent = 'Processing...';
+            
+            // Simulate upload progress
+            let progress = 0;
+            const progressInterval = setInterval(() => {
+                progress += 10;
+                document.getElementById('progressFill').style.width = progress + '%';
+                
+                if (progress >= 100) {
+                    clearInterval(progressInterval);
+                    
+                    // Store customer data in localStorage for order processing
+                    const orderData = {
+                        propertyAddress: document.getElementById('propertyAddress').value,
+                        clientName: document.getElementById('clientName').value,
+                        clientEmail: document.getElementById('clientEmail').value,
+                        clientPhone: document.getElementById('clientPhone').value,
+                        inspectionPurpose: document.getElementById('inspectionPurpose').value,
+                        uploadedFiles: uploadedFiles.map(f => f.name),
+                        orderDate: new Date().toISOString()
+                    };
+                    
+                    localStorage.setItem('pendingOrder', JSON.stringify(orderData));
+                    
+                    // Redirect to Stripe payment
+                    setTimeout(() => {
+                        // Replace this with your actual Stripe payment link
+                        const stripePaymentLink = 'https://buy.stripe.com/6oUdR9clfcK37Sdbw8abK00';
+                        
+                        // For testing, show alert first
+                        alert('Photos uploaded successfully! Redirecting to secure payment...');
+                        
+                        // Uncomment this line when you have your Stripe link:
+                        window.location.href = stripePaymentLink;
+                        
+                        // Temporary: Open Stripe in new tab for testing
+                        // window.open(stripePaymentLink, '_blank');
+                    }, 500);
+                }
+            }, 200);
+        });
+        
+        // Initial validation
+        validateForm();
+    </script>
+</body>
+</html>
