@@ -36,6 +36,7 @@
             justify-content: center;
             margin: 0 auto 30px;
             font-size: 2.5rem;
+            color: white;
         }
         
         h1 {
@@ -63,45 +64,6 @@
             margin-bottom: 15px;
         }
         
-        .timeline {
-            display: flex;
-            justify-content: space-between;
-            margin: 40px 0;
-            flex-wrap: wrap;
-        }
-        
-        .timeline-item {
-            flex: 1;
-            min-width: 150px;
-            margin: 10px;
-            text-align: center;
-        }
-        
-        .timeline-number {
-            width: 40px;
-            height: 40px;
-            background: #667eea;
-            color: white;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 10px;
-            font-weight: bold;
-        }
-        
-        .contact-info {
-            background: #e8f5e8;
-            padding: 20px;
-            border-radius: 10px;
-            margin-top: 30px;
-        }
-        
-        .contact-info h4 {
-            color: #27ae60;
-            margin-bottom: 10px;
-        }
-        
         .home-button {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
@@ -122,10 +84,6 @@
         }
         
         @media (max-width: 768px) {
-            .timeline {
-                flex-direction: column;
-            }
-            
             .container {
                 padding: 40px 20px;
             }
@@ -151,26 +109,6 @@
             <p><strong>Confirmation:</strong> You'll receive an email receipt shortly</p>
         </div>
         
-        <div class="timeline">
-            <div class="timeline-item">
-                <div class="timeline-number">1</div>
-                <h4>Photos Received</h4>
-                <p>Your roof images are being processed</p>
-            </div>
-            
-            <div class="timeline-item">
-                <div class="timeline-number">2</div>
-                <h4>AI Analysis</h4>
-                <p>Advanced AI examining your roof</p>
-            </div>
-            
-            <div class="timeline-item">
-                <div class="timeline-number">3</div>
-                <h4>Report Delivery</h4>
-                <p>Professional report within 24 hours</p>
-            </div>
-        </div>
-        
         <div class="info-card">
             <h3>📧 What Happens Next?</h3>
             <ul style="margin-left: 20px; line-height: 1.8;">
@@ -182,7 +120,7 @@
             </ul>
         </div>
         
-        <div class="contact-info">
+        <div class="info-card">
             <h4>Questions or Need Help?</h4>
             <p>📧 Email: support@airoofanalysis.com</p>
             <p>📞 Phone: 1-800-AI-ROOFS</p>
@@ -195,28 +133,6 @@
     <script>
         // Display current date
         document.getElementById('orderDate').textContent = new Date().toLocaleDateString();
-        
-        // Check for order data from localStorage
-        const orderData = localStorage.getItem('pendingOrder');
-        if (orderData) {
-            const order = JSON.parse(orderData);
-            console.log('Order processed for:', order.clientEmail);
-            
-            // In a real implementation, you'd send this data to your server
-            // to trigger the AI analysis workflow
-            
-            // Clear the pending order
-            localStorage.removeItem('pendingOrder');
-        }
-        
-        // Optional: Send order data to your server for processing
-        function processOrder() {
-            // This would send the order to your backend for AI analysis
-            // For now, just log that payment was successful
-            console.log('Payment successful - ready for AI analysis');
-        }
-        
-        processOrder();
     </script>
 </body>
 </html>
